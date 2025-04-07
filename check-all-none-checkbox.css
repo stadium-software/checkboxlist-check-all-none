@@ -1,7 +1,11 @@
 /* Stadium CSS https://github.com/stadium-software/checkboxlist-check-all-none */
 .stadium-all-none-checkbox {
-	border-bottom: 1px solid var(--check-all-none-checkbox-bottom-border-color, var(--GENERAL-BORDER-COLOR, #ccc));
+	border-bottom: 0.1rem solid var(--check-all-none-checkbox-bottom-border-color, var(--GENERAL-BORDER-COLOR, #ccc));
 	label {
 		user-select: none;
 	}
+}
+html {
+    min-height: 100%;
+    font-size: 62.5%;
 }
