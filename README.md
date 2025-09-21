@@ -5,9 +5,11 @@ Add a "Check All / None" checkbox to a *CheckBoxList* control.
 ![](images/View.gif)
 
 # Version
-Initial 1.0
+1.1
 
 1.0.1 Upgraded readme to 6.12+; Converted px to rem
+
+1.1 Integrated CSS in script
 
 # Setup
 
@@ -21,7 +23,7 @@ Initial 1.0
 3. Drag a *JavaScript* action into the script
 4. Add the Javascript below unchanged into the JavaScript code property
 ```javascript
-/* Stadium Script https://github.com/stadium-software/checkboxlist-check-all-none */
+/* Stadium Script v1.1 https://github.com/stadium-software/checkboxlist-check-all-none */
 let scope = this;
 let checkBoxListContainerClass = ~.Parameters.Input.CheckBoxListClass;
 let checkBoxListContainer = document.querySelectorAll(".check-box-list-container." + checkBoxListContainerClass);
@@ -33,6 +35,7 @@ if (checkBoxListContainer.length > 1) {
     return false;
 }
 checkBoxListContainer = checkBoxListContainer[0];
+loadCSS();
 
 let allNoneCheckBoxContainer = document.createElement("div");
 allNoneCheckBoxContainer.classList.add("checkbox", "stadium-all-none-checkbox");
@@ -72,6 +75,28 @@ function setDMValues(ob, property, value) {
     let obname = getObjectName(ob);
     scope[`${obname}${property}`] = value;
 }
+function loadCSS() {
+    let moduleID = "stadium-check-all-none-checkbox";
+    if (!document.getElementById(moduleID)) {
+        let cssMain = document.createElement("style");
+        cssMain.id = moduleID;
+        cssMain.type = "text/css";
+        cssMain.textContent = `
+/* Stadium CSS https://github.com/stadium-software/checkboxlist-check-all-none */
+.stadium-all-none-checkbox {
+	border-bottom: 0.1rem solid var(--check-all-none-checkbox-bottom-border-color, var(--GENERAL-BORDER-COLOR, #ccc));
+	label {
+		user-select: none;
+	}
+}
+html {
+    min-height: 100%;
+    font-size: 62.5%;
+}        
+        `;
+        document.head.appendChild(cssMain);
+    }
+}
 ```
 
 ## Page
@@ -83,24 +108,7 @@ function setDMValues(ob, property, value) {
 2. Pass the unique classname into the script "CheckBoxListClass" parameter (e.g. check-all-none)
 
 ## CSS
-The CSS below is required for the correct functioning of the module. Variables exposed in the [*css-file-variables.css*](css-file-variables.css) file can be [customised](#customising-css).
-
-### Before v6.12
-1. Create a folder called "CSS" inside of your Embedded Files in your application
-2. Drag the two CSS files from this repo [*css-file-variables.css*](css-file-variables.css) and [*css-file.css*](css-file.css) into that folder
-3. Paste the link tags below into the *head* property of your application
-```html
-<link rel="stylesheet" href="{EmbeddedFiles}/CSS/css-file.css">
-<link rel="stylesheet" href="{EmbeddedFiles}/CSS/css-file-variables.css">
-``` 
-
-### v6.12+
-1. Create a folder called "CSS" inside of your Embedded Files in your application
-2. Drag the CSS files from this repo [*css-file.css*](css-file.css) into that folder
-3. Paste the link tag below into the *head* property of your application
-```html
-<link rel="stylesheet" href="{EmbeddedFiles}/CSS/css-file.css">
-``` 
+Variables exposed in the [*css-file-variables.css*](css-file-variables.css) file can be [customised](#customising-css).
 
 ### Customising CSS
 1. Open the CSS file called [*css-file-variables.css*](css-file-variables.css) from this repo
@@ -112,8 +120,6 @@ The CSS below is required for the correct functioning of the module. Variables e
 <link rel="stylesheet" href="{EmbeddedFiles}/CSS/css-file-variables.css">
 ``` 
 6. Add the file to the "CSS" inside of your Embedded Files in your application
-
-**NOTE: Do not change any of the CSS in the 'css-file.css' file**
 
 ## Upgrading Stadium Repos
 Stadium Repos are not static. They change as additional features are added and bugs are fixed. Using the right method to work with Stadium Repos allows for upgrading them in a controlled manner. 
